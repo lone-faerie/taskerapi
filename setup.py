@@ -4,7 +4,7 @@ from setuptools import setup
 
 PROJECT_DIR = Path(__file__).parent.resolve()
 README_FILE = PROJECT_DIR / "README.md"
-VERSION = "0.0.3"
+VERSION = "0.0.4"
 INSTALL_REQUIREMENTS = [
     "aiohttp==3.8.4",
     "async_timeout==4.0.2",
