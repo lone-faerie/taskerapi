@@ -94,3 +94,25 @@ def rename_tasker_xml(name: str, data: str) -> str:
     return _RE_TASKER_XML_NAME.sub(
         f"\g<1><nme>{name}</nme>", data, 1
     )
+    
+def tasker_pattern_to_regex(pattern: str) -> str:
+    if pattern and pattern[0] == '!':
+        pattern = pattern[1:]
+    return '|'.join(
+        [
+            f"^{re.escape(p).replace('\*', '.*').replace('\+', '.+')}$"
+            for p in pattern.split('/') if p
+        ]
+    )
+    
+def tasker_pattern_is_match(pattern: str, value: str) -> bool:
+    if not pattern:
+        return True
+    is_match = re.match(
+        tasker_pattern_to_regex(pattern),
+        value,
+        re.I if pattern.islower() else 0,
+    ) is not None
+    if pattern[0] == '!':
+        return not is_match
+    return is_match
